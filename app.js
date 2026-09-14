@@ -17,24 +17,24 @@ function setPage(page) { state.page = page; saveState(); window.scrollTo({ top: 
 function iconFor(code) { return dimensions[code]?.icon || '✦'; }
 
 function header(back = false) {
-  return `<header class="topbar"><button class="brand" data-home aria-label="返回首页"><span class="brand-mark">⌁</span><span>城市匹配</span></button>${back ? '<button class="ghost-btn" data-back>← 返回</button>' : '<span class="privacy">本地测试 · 不上传答案</span>'}</header>`;
+  return `<header class="topbar"><button class="brand" data-home aria-label="返回首页"><span class="brand-mark">⌖</span><span>城市匹配测试</span></button>${back ? '<button class="report-btn" data-back>← 返回</button>' : '<button class="report-btn" data-history>▱ 我的报告</button>'}</header>`;
 }
 
 function home() {
   const hasProgress = Object.keys(state.answers).length > 0 && Object.keys(state.answers).length < questions.length;
-  app.innerHTML = `${header()}<section class="hero shell">
-    <div class="hero-copy">
-      <p class="eyebrow"><span></span> CITY MATCH · 城市人格图谱</p>
-      <h1>发现你的<br><em>命定城市</em></h1>
-      <p class="lead">你真正向往怎样的生活？通过 45 道情境题，从生活节奏、气候、美食、职业与社交等 11 个维度，找到与你最契合的城市。</p>
-      <div class="actions"><button class="primary" data-start>${hasProgress ? `继续测试（${Object.keys(state.answers).length}/45）` : '开始城市探索'} <b>↗</b></button><button class="secondary" data-history>查看历史结果</button></div>
-      <div class="facts"><span><b>45</b> 道情境题</span><span><b>11</b> 个生活维度</span><span><b>28</b> 座候选城市</span><span><b>6–10</b> 分钟</span></div>
-    </div>
-    <div class="orbit" aria-hidden="true"><div class="globe"><span>你会在哪里<br><b>找到归属感？</b></span></div><div class="city-chip c1">成都<br><small>松弛烟火</small></div><div class="city-chip c2">上海<br><small>摩登效率</small></div><div class="city-chip c3">大理<br><small>山海自由</small></div><div class="city-chip c4">北京<br><small>理想舞台</small></div></div>
-  </section><section class="dimension-section shell"><p class="section-label">ELEVEN DIMENSIONS</p><h2>一座城，也是一种生活答案</h2><div class="dimension-grid">${Object.entries(dimensions).map(([k,v]) => `<article><span>${v.icon}</span><div><h3>${esc(v.name)}</h3><p>${esc(v.description)}</p></div></article>`).join('')}</div></section>
-  <footer>独立静态备份 · 所有计算均在你的浏览器中完成</footer>`;
+  const cityGroups=[['🏙️','一线城市',['北京','上海','广州','深圳'],'国际视野 · 无限机遇 · 追梦之地'],['◫','新一线城市',['成都','杭州','武汉','南京','+4'],'品质生活 · 发展潜力 · 宜居宜业'],['⌂','宜居二线',['苏州','厦门','青岛','珠海','+4'],'舒适节奏 · 幸福指数 · 安居乐业'],['〰','特色风情',['大理','三亚','拉萨','丽江','+4'],'诗和远方 · 心灵净土 · 自在生活']];
+  const dimCopy={A:'快节奏拼搏 vs 慢生活惬意',B:'四季分明 vs 四季如春',C:'历史文化 vs 现代时尚',D:'麻辣重口 vs 清淡养生',E:'热情外向 vs 独立自我',F:'稳定体制 vs 创业挑战',G:'山景高原 vs 海滨风光',H:'品质消费 vs 性价比优先',I:'方言氛围 vs 普通话为主',J:'超大城市 vs 小城安逸',K:'潮流娱乐 vs 传统文化'};
+  app.innerHTML = `${header()}<section class="home-hero"><div class="hero shell">
+    <div class="hero-copy"><p class="mini-pill">✦ 45道测评 · 11大维度 · 24座城市</p><h1>发现你的<br><em>命定城市</em></h1><p class="lead">每个人心中都有一座城，等待被发现<br>测一测，哪座城市最能成为你的灵魂栖息地</p><button class="primary hero-start" data-start>${hasProgress ? `继续探索（${Object.keys(state.answers).length}/45）` : '◉　开始探索'} </button><div class="facts"><span><b>6–10</b>分钟</span><span><b>45</b>题目</span><span><b>24</b>城市</span><span><b>100%</b>隐私</span></div></div>
+    <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="pin">⌖</div><div class="skyline"></div></div>
+  </div><div class="city-marquee"><div>${['北京','上海','广州','深圳','成都','杭州','武汉','南京','苏州','厦门','青岛','珠海','大理','三亚','拉萨','丽江','北京','上海','广州','深圳'].map(x=>`<span>●　${x}</span>`).join('')}</div></div></section>
+  <section class="catalog shell"><p class="section-kicker">🏙️ 城市图谱</p><h2>四大类型 <em>各有精彩</em></h2><p class="section-sub">从繁华都市到诗意远方，总有一座与你心灵共振</p><div class="city-groups">${cityGroups.map((g,i)=>`<article><span class="group-icon g${i}">${g[0]}</span><h3><i></i>${g[1]}</h3><div class="city-names">${g[2].map(x=>`<b>${x}</b>`).join('')}</div><p>${g[3]}</p></article>`).join('')}</div></section>
+  <section class="dimension-section"><div class="shell"><p class="section-kicker">✧ 科学测评</p><h2>11项维度 <em>精准匹配</em></h2><p class="section-sub">从生活方式到价值追求，全方位解读你的城市偏好</p><div class="dimension-grid">${Object.entries(dimensions).map(([k,v],i) => `<article><small>${String(i+1).padStart(2,'0')}</small><span>${v.icon}</span><div><h3>${esc(v.name)}</h3><p>${dimCopy[k]}</p></div></article>`).join('')}</div></div></section>
+  <section class="final-cta shell"><div class="cta-pin">⌖</div><h2>准备好发现你的<em>理想城市</em>了吗？</h2><p>只需几分钟，跟随直觉作答，开启你的城市探索之旅</p><button class="primary" data-start>立即开始　→</button><ul><li>科学算法</li><li>隐私保护</li><li>详细报告</li></ul></section>
+  <footer>© 2026 性格城市匹配测试 · City Match Test</footer>`;
   app.querySelector('[data-start]').onclick = () => { state.page='quiz'; state.index = firstUnanswered(); saveState(); render(); };
   app.querySelector('[data-history]').onclick = showHistory;
+  app.querySelectorAll('[data-start]').forEach(x=>x.onclick = () => { state.page='quiz'; state.index = firstUnanswered(); saveState(); render(); });
   bindHome();
 }
 
@@ -61,7 +61,20 @@ function finish() {
   const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
   history.unshift({ date: new Date().toISOString(), topCities: state.result.topCities });
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0,10)));
+  syncReport(state.result);
   saveState(); render();
+}
+
+async function syncReport(result) {
+  if (location.hostname.endsWith('github.io') || location.protocol === 'file:') return;
+  try {
+    const token = localStorage.getItem('city-match-auth-token');
+    await fetch('/api/reports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+      body: JSON.stringify(result)
+    });
+  } catch { /* 静态预览时继续保留本地结果 */ }
 }
 
 function result() {
